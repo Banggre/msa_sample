@@ -53,7 +53,7 @@ def get_user_activity_rewards():
 
 @auth_bp.route('/update_user_activity_rewards', methods=['POST'])
 def update_user_activity_rewards():
-     try:
+    try:
         data = request.json
         ActivityService.update_user_activity_rewards(data["activity_id_list"], data["rewarded"])
         return jsonify({"message": "User activity rewards updated"}), 200
