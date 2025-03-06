@@ -1,16 +1,16 @@
-from models.activity_model import activity_collection
+from models.activity_model import activities_collection
 from bson import ObjectId
 
 class ActivityRepository:
     @staticmethod
     def create_activity(activity_data):
         """사용자 추가"""
-        return activity_collection.insert_one(activity_data).inserted_id
+        return activities_collection.insert_one(activity_data).inserted_id
 
     @staticmethod
     def find_activity_by_name(name):
         """이름으로 활동 조회"""
-        return activity_collection.find_one({"name": name})
+        return activities_collection.find_one({"name": name})
 
     @staticmethod
     def find_activity_by_ids(activity_ids):
@@ -21,7 +21,7 @@ class ActivityRepository:
         # 문자열 ID를 ObjectId로 변환
         object_ids = [ObjectId(id) if ObjectId.is_valid(id) else id for id in activity_ids]
 
-        return activity_collection.find({"_id": {"$in": object_ids}})
+        return activities_collection.find({"_id": {"$in": object_ids}})
 
     @staticmethod
     def update_user_activity_rewards(reward_id_list):

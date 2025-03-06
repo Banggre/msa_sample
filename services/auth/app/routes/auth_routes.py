@@ -1,33 +1,27 @@
 from flask import Blueprint, request, jsonify
-from config import SECRET_KEY 
-from repository.user_repository import UserRepository
+from service.auth_service import signup, login
 import jwt
 import datetime
 import os
 
 auth_bp = Blueprint("auth", __name__)
 
-
 @auth_bp.route('/signup', methods=['POST'])
-def signup():
-    data = request.json
-    existing_user = UserRepository.find_user_by_username(data["username"])
-    if existing_user:
-        return {"message": "username already exists"}, 400
+def signup_route():
+    user_data = request.json
+    user_id, error = signup(user_data)
     
-    user_id = UserRepository.create_user(data)
+    if error:
+        return {"message": error}, 400
+    
     return jsonify({"message": "User created", "user_id": str(user_id)}), 201
 
 @auth_bp.route("/login", methods=["GET"])
-def login():
+def login_route():
     data = request.json
-    user = UserRepository.find_user_by_username_and_password(data["username"], data["password"])
-    if not user:
-        return {"message": "Invalid username or password"}, 401
+    user_id, error = login(data["email"], data["password"])
     
-    token = jwt.encode(
-        {"user_id": str(user["_id"]), "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=6)},
-        SECRET_KEY,
-        algorithm="HS256",
-    )
-    return jsonify({"message": "Login successful", "token": token}), 200
+    if error:
+        return {"message": error}, 401
+    
+    return jsonify({"message": "Login successful"}), 200

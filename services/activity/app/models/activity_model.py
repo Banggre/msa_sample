@@ -6,10 +6,10 @@ print(Config.MONGO_URI)
 client = MongoClient(Config.MONGO_URI)
 db = client.activity_db
 
-if "activity" not in db.list_collection_names():
-    db.create_collection("activity")
+if "activities" not in db.list_collection_names():
+    db.create_collection("activities")
 
-activity_schema = {
+activities_schema = {
     "$jsonSchema": {
         "bsonType": "object",
         "required": ["name", "type"],
@@ -27,5 +27,5 @@ activity_schema = {
     }
 }
 
-db.command("collMod", "activity", validator=activity_schema )
-activity_collection = db.activity
+db.command("collMod", "activities", validator=activities_schema )
+activities_collection = db.activities

@@ -1,8 +1,8 @@
 db = db.getSiblingDB("activity_db");  // 데이터베이스 선택
 
 // "activity" 컬렉션이 존재하지 않으면 생성
-if (!db.getCollectionNames().includes("activity")) {
-    db.createCollection("activity");
+if (!db.getCollectionNames().includes("activities")) {
+    db.createCollection("activities");
 }
 
 // JSON Schema를 사용하여 "activity" 컬렉션의 스키마 정의
@@ -28,7 +28,7 @@ var activitySchema = {
 
 // "activity" 컬렉션 스키마 적용
 db.runCommand({
-    collMod: "activity",
+    collMod: "activities",
     validator: activitySchema.validator
 });
 

@@ -8,11 +8,11 @@ var userSchema = {
     validator: {
         $jsonSchema: {
             bsonType: "object",
-            required: ["username", "password"],
+            required: ["email", "password"],
             properties: {
-                username: {
+                email: {
                     bsonType: "string",
-                    description: "user name (required)"
+                    description: "user email (required)"
                 },
                 password: {
                     bsonType: "string",
@@ -29,6 +29,6 @@ db.runCommand({
 });
 
 db.users.insertMany([
-    { _id: ObjectId("67c6b619784675d56ee21e53"), username: "testuser", password: "testpass" },
-    { _id: ObjectId("67c6b72b99d74e34800ba5f7"), username: "testuser2", password: "testpass2" }
+    { _id: ObjectId("67c6b619784675d56ee21e53"), email: "testuser@naver.com", password: "testpass" },
+    { _id: ObjectId("67c6b72b99d74e34800ba5f7"), email: "testuser2@naver.com", password: "testpass2" }
 ]);

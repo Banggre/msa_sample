@@ -10,11 +10,11 @@ if "users" not in db.list_collection_names():
 user_schema = {
     "$jsonSchema": {
         "bsonType": "object",
-        "required": ["username", "password"],
+        "required": ["email", "password"],
         "properties": {
-            "username": {
+            "email": {
                 "bsonType": "string",
-                "description": "user name (required)"
+                "description": "user email (required)"
             },
             "password": {
                 "bsonType": "string",

@@ -11,7 +11,7 @@
 
 ### Auth Service (volunteer_db)
 - users: 사용자 정보 관리
-  - username: 사용자 이름
+  - email: 사용자 이메일
   - password: 비밀번호
 
 ### Activity Service (activity_db) 
@@ -50,19 +50,20 @@
 #### 사용자 관리
 - POST /auth/signup
   - 사용자 등록
-  - Request Body: { "username": string, "password": string }
+  - Request Body: { "email": string, "password": string }
   - Response: {
         "message": string,
         "user_id": string
     }
+  - Status: 201 Created, 400 Bad Request
 
-- POST /auth/login  
+- GET /auth/login  
   - 로그인
-  - Request Body: { "username": string, "password": string }
+  - Request Body: { "email": string, "password": string }
   - Response: {
-        "message": string,
-        "token": string
+        "message": string
     }
+  - Status: 200 OK, 401 Unauthorized
 
 ### Activity Service (8081)
 
@@ -74,9 +75,11 @@
         "message": string,
         "activity_id": string
     }
+  - Status: 201 Created, 400 Bad Request, 500 Internal Server Error
 
-- GET /activity/get?name=string
+- GET /activity/get
   - 활동 정보 조회
+  - Query Parameters: name=string
   - Response: {
         "message": string,
         "activity": {
@@ -85,57 +88,56 @@
             "type": "Volunteering"|"Adoption"
         }
     }
+  - Status: 200 OK, 404 Not Found, 500 Internal Server Error
 
 #### 사용자 활동 관리
 - POST /activity/add_user_activity_rewards
   - 사용자 활동 기록
-  - header: { "Authorization": "Bearer {token}" }
-  - Request Body: { "activity_id": string }
+  - Request Body: { "user_id": string, "activity_id": string }
   - Response: { "message": string }
+  - Status: 201 Created, 500 Internal Server Error
 
 - GET /activity/get_user_activity_rewards
   - 사용자 활동 내역 조회
-  - header: { "Authorization": "Bearer {token}" }
-  - Response: { "message": string, "user_activity_rewards":[
-        { 
-            "id": string, 
-            "activity_name": string, 
-            "activity_type": "Volunteering"|"Adoption", 
-            "activity_id": string, 
-            "created_at": datetime,
-            "rewarded": boolean, 
-        }] 
+  - Request Body: { "user_id": string }
+  - Response: {
+        "message": string,
+        "user_activity_rewards": [
+            {
+                "id": string,
+                "activity_name": string,
+                "activity_type": "Volunteering"|"Adoption",
+                "activity_id": string,
+                "created_at": datetime,
+                "rewarded": boolean
+            }
+        ]
     }
+  - Status: 200 OK, 500 Internal Server Error
+
+- POST /activity/update_user_activity_rewards
+  - 사용자 활동 보상 상태 업데이트
+  - Request Body: { 
+        "activity_id_list": string[],
+        "rewarded": boolean
+    }
+  - Response: { "message": string }
+  - Status: 200 OK, 500 Internal Server Error
 
 ### Reward Service (8082)
 
 #### 보상 관리
-- GET /reward/get_user_activity_history
-  - 사용자 보상 포인트 조회
-  - header: { "Authorization": "Bearer {token}" }
-  - Response: { 
-    "success": boolean,
-    "activities": [
-        { 
-            "id": string, 
-            "activity_name": string, 
-            "activity_type": "Volunteering"|"Adoption", 
-            "activity_id": string, 
-            "created_at": datetime,
-            "rewarded": boolean, 
-        }]
-   }
-
 - POST /reward/handle_reward
   - 활동에 대한 보상 계산 및 지급
-  - header: { "Authorization": "Bearer {token}" }
+  - Request Body: { "user_id": string }
   - Response: {
         "success": boolean,
+        "message": string,
         "adoption_count": number,
         "volunteering_count": number,
-        "points_earned": number,
-        "message": string
-   }
+        "points_earned": number
+    }
+  - Status: 200 OK, 500 Internal Server Error
 
 ### API Gateway (8000)
 - 모든 서비스 엔드포인트는 API Gateway를 통해 라우팅됨

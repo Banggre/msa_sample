@@ -6,10 +6,10 @@ print(Config.MONGO_URI)
 client = MongoClient(Config.MONGO_URI)
 db = client.reward_db
 
-if "reward" not in db.list_collection_names():
-    db.create_collection("reward")
+if "rewards" not in db.list_collection_names():
+    db.create_collection("rewards")
 
-reward_schema = {
+rewards_schema = {
     "$jsonSchema": {
         "bsonType": "object",
         "required": ["user_id", "point"],
@@ -26,5 +26,5 @@ reward_schema = {
     }
 }
 
-db.command("collMod", "reward", validator=reward_schema)
-reward_collection = db.reward
+db.command("collMod", "rewards", validator=rewards_schema)
+rewards_collection = db.rewards
