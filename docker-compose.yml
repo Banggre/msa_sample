@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   auth:
     build: ./services/auth
@@ -49,6 +49,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - ./mongo-init/mongo-auth.js:/docker-entrypoint-initdb.d/mongo-auth.js
 
   mongo-activity:
     image: mongo
@@ -59,7 +61,9 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
-
+    volumes:
+      - ./mongo-init/mongo-activity.js:/docker-entrypoint-initdb.d/mongo-activity.js
+      
   mongo-reward:
     image: mongo
     container_name: mongo_reward

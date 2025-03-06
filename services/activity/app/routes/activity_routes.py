@@ -80,7 +80,6 @@ def get_user_activity_rewards():
     return jsonify({
         "message": "User activity rewards found", 
         "user_activity_rewards": rewards_list,
-        "user_id": user_id,
     }), 200
 
 @auth_bp.route('/update_user_activity_rewards', methods=['POST'])
