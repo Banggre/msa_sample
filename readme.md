@@ -40,6 +40,8 @@
 1. 서비스 시작
 - docker-compose up --build
 
+2 참고
+- 처음 docker-compose up --build 실행 시 mongo-init에 정의 된 기본 데이터가 DB에 추가됨.
 
 ## API 명세
 
