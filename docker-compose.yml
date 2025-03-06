@@ -1,0 +1,71 @@
+version: '3'
+services:
+  auth:
+    build: ./services/auth
+    env_file:
+      - ./services/auth/.env
+    ports:
+      - "8080:8080"
+    environment:
+      - MONGO_URI=mongodb://admin:password@mongo-auth:27017/volunteer_db?authSource=admin
+    depends_on:
+      - mongo-auth
+
+  activity:
+    build: ./services/activity
+    env_file:
+      - ./services/activity/.env
+    ports:
+      - "8081:8081"
+    environment:
+      - MONGO_URI=mongodb://admin:password@mongo-activity:27017/activity_db?authSource=admin
+    depends_on:
+      - mongo-activity
+
+  reward:
+    build: ./services/reward
+    env_file:
+      - ./services/reward/.env
+    ports:
+      - "8082:8082"
+    environment:
+      - MONGO_URI=mongodb://admin:password@mongo-reward:27017/reward_db?authSource=admin
+    depends_on:
+      - mongo-reward
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - auth
+
+  mongo-auth:
+    image: mongo
+    container_name: mongo_auth
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+
+  mongo-activity:
+    image: mongo
+    container_name: mongo_activity
+    restart: always
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+
+  mongo-reward:
+    image: mongo
+    container_name: mongo_reward
+    restart: always
+    ports:
+      - "27019:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
