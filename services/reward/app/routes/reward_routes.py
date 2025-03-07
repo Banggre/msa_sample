@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from config import SECRET_KEY
-from repository.reward_repository import RewardRepository
+from service.reward_service import RewardService
 import jwt
 import datetime
 import os

@@ -24,4 +24,4 @@ def login_route():
     if error:
         return {"message": error}, 401
     
-    return jsonify({"message": "Login successful"}), 200
+    return jsonify({"message": "Login successful", "user_id": str(user_id)}), 200

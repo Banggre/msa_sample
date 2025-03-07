@@ -61,7 +61,8 @@
   - 로그인
   - Request Body: { "email": string, "password": string }
   - Response: {
-        "message": string
+        "message": string,
+        "user_id": string
     }
   - Status: 200 OK, 401 Unauthorized
 

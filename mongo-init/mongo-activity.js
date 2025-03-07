@@ -33,7 +33,7 @@ db.runCommand({
 });
 
 // 기본 데이터 삽입 (ObjectId 설정)
-db.activity.insertMany([
+db.activities.insertMany([
     { _id: ObjectId("67c6dda01f9f2aeffb717acd"), name: "Animal Shelter Visit", type: "Volunteering" },
     { _id: ObjectId("67c6df6f2ae3be91a4dc7338"), name: "Adopting a Pet", type: "Adoption" }
 ]);
