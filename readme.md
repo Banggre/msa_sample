@@ -10,22 +10,22 @@
 ## 데이터베이스 스키마
 
 ### Auth Service (volunteer_db)
-- users: 사용자 정보 관리
+- users: 사용자 정보를 기록하는 컬렉션
   - email: 사용자 이메일
   - password: 비밀번호
 
 ### Activity Service (activity_db) 
-- activity: 활동 정보
+- activity: 활동 종류를 저장하는 컬렉션
   - name: 활동 이름
   - type: 활동 유형 (Volunteering/Adoption)
-- user_activity_rewards: 사용자 활동 및 보상 기록
+- user_activity_rewards: 사용자 활동 및 보상 여부를 기록하는 컬렉션
   - user_id: 사용자 ID
   - activity_id: 활동 ID
   - rewarded: 보상 지급 여부
   - created_at: 활동 일시
 
 ### Reward Service (reward_db)
-- reward: 보상 정보
+- rewards: 유저별 보상 정보를 기록하는 컬렉션
   - user_id: 사용자 ID
   - point: 보상 포인트
 
